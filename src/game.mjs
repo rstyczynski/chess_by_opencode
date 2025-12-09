@@ -20,8 +20,9 @@ export class Game{
     if(!move) return false
     const {from,to} = move
     const [fr,ff]=from,[tr,tf]=to
+    if(fr<0||fr>7||ff<0||ff>7||tr<0||tr>7||tf<0||tf>7) return false
     const piece = this.board[fr][ff]
-    if(!piece || (this.turn==='w' && piece!==piece.toUpperCase()) || (this.turn==='b' && piece!==piece.toLowerCase())) return false
+    if(!piece || piece==='.' || (this.turn==='w' && piece!==piece.toUpperCase()) || (this.turn==='b' && piece!==piece.toLowerCase())) return false
     this.board[tr][tf]=piece
     this.board[fr][ff]='.'
     this.turn=this.turn==='w'?'b':'w'
@@ -29,8 +30,8 @@ export class Game{
   }
   parseSimpleSan(s){
     if(/^[a-h][1-8][a-h][1-8]$/.test(s)){ // long algebraic like e2e4
-      const ff=s.charCodeAt(0)-97, fr=parseInt(s[1])-1
-      const tf=s.charCodeAt(2)-97, tr=parseInt(s[3])-1
+      const ff=s.charCodeAt(0)-97, fr=8-parseInt(s[1],10)
+      const tf=s.charCodeAt(2)-97, tr=8-parseInt(s[3],10)
       return {from:[fr,ff], to:[tr,tf]}
     }
     return null

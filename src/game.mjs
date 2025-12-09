@@ -42,11 +42,11 @@ export class Game{
       const p=this.board[r][f]
       if(this.turn==='b' && p && p===p.toLowerCase()){
         for(let tf=0;tf<8;tf++) for(let tr=0;tr<8;tr++){
-          moves.push({from:[r,f], to:[tr,tf]})
+          if(tr!==r || tf!==f) moves.push({from:[r,f], to:[tr,tf]})
         }
       } else if(this.turn==='w' && p && p===p.toUpperCase()){
         for(let tf=0;tf<8;tf++) for(let tr=0;tr<8;tr++){
-          moves.push({from:[r,f], to:[tr,tf]})
+          if(tr!==r || tf!==f) moves.push({from:[r,f], to:[tr,tf]})
         }
       }
     }

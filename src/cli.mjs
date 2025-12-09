@@ -9,7 +9,7 @@ function renderBoard(board){
   for(let r=8;r>=1;r--){
     s+=r+' '
     for(let f=0;f<8;f++){
-      s+=(board[r-1][f]||'.')+' '
+      s+=(board[8-r][f]||'.')+' '
     }
     s+='\n'
   }

@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.chess-square {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid #9CA3AF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 2rem;
+  font-family: monospace;
+}
+
+.chess-square.light {
+  background-color: #BBF7D0;
+}
+
+.chess-square.dark {
+  background-color: #F2DCCD;
+}
+
+.chess-square.selected {
+  box-shadow: 0 0 0 2px #FCD34D;
+}
+
+.chess-square.valid-move {
+  box-shadow: 0 0 0 2px #3B82F6;
+}

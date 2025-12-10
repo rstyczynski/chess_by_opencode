@@ -5,13 +5,15 @@ export async function createGame() {
     method: 'POST',
   });
   if (!response.ok) throw new Error('Failed to create game');
-  return response.json();
+  const result = await response.json();
+  return result.data || result;
 }
 
 export async function getGameState(gameId) {
   const response = await fetch(`${API_URL}/games/${gameId}`);
   if (!response.ok) throw new Error('Failed to get game state');
-  return response.json();
+  const result = await response.json();
+  return result.data || result;
 }
 
 export async function makeMove(gameId, move) {
@@ -24,7 +26,8 @@ export async function makeMove(gameId, move) {
     const error = await response.json();
     throw new Error(error.error || 'Invalid move');
   }
-  return response.json();
+  const result = await response.json();
+  return result.data || result;
 }
 
 export async function getComputerMove(gameId) {
@@ -32,13 +35,15 @@ export async function getComputerMove(gameId) {
     method: 'POST',
   });
   if (!response.ok) throw new Error('Failed to get computer move');
-  return response.json();
+  const result = await response.json();
+  return result.data || result;
 }
 
 export async function getValidMoves(gameId) {
   const response = await fetch(`${API_URL}/games/${gameId}/valid-moves`);
   if (!response.ok) throw new Error('Failed to get valid moves');
-  return response.json();
+  const result = await response.json();
+  return result.data || result;
 }
 
 export async function deleteGame(gameId) {

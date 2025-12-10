@@ -3,26 +3,26 @@ function GameInfo({ moveHistory, capturedPieces }) {
   const blackCaptured = capturedPieces?.black || [];
 
   return (
-    <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 p-6 rounded-2xl shadow-2xl border border-slate-700 h-[600px] flex flex-col">
+    <div className="bg-white p-6 rounded-3xl shadow-2xl border-4 border-amber-700 h-[660px] flex flex-col">
       {/* Move History */}
-      <div className="flex-1 mb-4 overflow-hidden flex flex-col">
-        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+      <div className="flex-1 mb-6 overflow-hidden flex flex-col">
+        <h3 className="text-3xl font-bold text-amber-900 mb-4" style={{ fontFamily: 'Cinzel, serif' }}>
           📜 Move History
         </h3>
-        <div className="flex-1 bg-slate-900 rounded-xl p-4 overflow-y-auto border border-slate-700 shadow-inner">
+        <div className="flex-1 bg-amber-50 rounded-2xl p-4 overflow-y-auto border-2 border-amber-300 shadow-inner">
           {moveHistory.length === 0 ? (
-            <p className="text-slate-500 text-center italic py-4">No moves yet</p>
+            <p className="text-amber-600 text-center italic py-8 text-lg font-semibold">No moves yet</p>
           ) : (
-            <div className="space-y-1">
+            <div className="space-y-2">
               {moveHistory.map((move, index) => (
                 <div
                   key={index}
-                  className={`flex items-center gap-2 p-2 rounded ${
-                    index % 2 === 0 ? 'bg-slate-800' : 'bg-slate-900'
-                  } hover:bg-slate-700 transition-colors`}
+                  className={`flex items-center gap-3 p-3 rounded-xl ${
+                    index % 2 === 0 ? 'bg-white' : 'bg-amber-100'
+                  } shadow-sm border border-amber-200`}
                 >
-                  <span className="text-amber-500 font-bold w-8">{Math.floor(index / 2) + 1}.</span>
-                  <span className="text-slate-300 font-mono">{move}</span>
+                  <span className="text-amber-800 font-bold text-lg w-10">{Math.floor(index / 2) + 1}.</span>
+                  <span className="text-gray-900 font-mono text-lg font-semibold">{move}</span>
                 </div>
               ))}
             </div>
@@ -31,34 +31,34 @@ function GameInfo({ moveHistory, capturedPieces }) {
       </div>
 
       {/* Captured Pieces */}
-      <div className="space-y-3">
-        <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500" style={{ fontFamily: 'Playfair Display, serif' }}>
-          ⚔️ Captured Pieces
+      <div className="space-y-4">
+        <h3 className="text-3xl font-bold text-amber-900" style={{ fontFamily: 'Cinzel, serif' }}>
+          ⚔️ Captured
         </h3>
 
-        {/* Black Captured (taken by White) */}
-        <div className="bg-slate-900 rounded-xl p-3 border border-slate-700 shadow-inner">
-          <p className="text-slate-400 text-sm mb-1">White captured:</p>
-          <div className="flex flex-wrap gap-1">
+        {/* Black Captured */}
+        <div className="bg-amber-50 rounded-2xl p-4 border-2 border-amber-300 shadow-inner">
+          <p className="text-amber-800 text-sm font-bold mb-2 uppercase">White captured:</p>
+          <div className="flex flex-wrap gap-2">
             {blackCaptured.length === 0 ? (
-              <span className="text-slate-600 text-sm italic">None</span>
+              <span className="text-amber-500 italic">None</span>
             ) : (
               blackCaptured.map((piece, i) => (
-                <span key={i} className="text-2xl drop-shadow-lg">{piece}</span>
+                <span key={i} className="text-3xl drop-shadow-lg">{piece}</span>
               ))
             )}
           </div>
         </div>
 
-        {/* White Captured (taken by Black) */}
-        <div className="bg-slate-900 rounded-xl p-3 border border-slate-700 shadow-inner">
-          <p className="text-slate-400 text-sm mb-1">Black captured:</p>
-          <div className="flex flex-wrap gap-1">
+        {/* White Captured */}
+        <div className="bg-amber-50 rounded-2xl p-4 border-2 border-amber-300 shadow-inner">
+          <p className="text-amber-800 text-sm font-bold mb-2 uppercase">Black captured:</p>
+          <div className="flex flex-wrap gap-2">
             {whiteCaptured.length === 0 ? (
-              <span className="text-slate-600 text-sm italic">None</span>
+              <span className="text-amber-500 italic">None</span>
             ) : (
               whiteCaptured.map((piece, i) => (
-                <span key={i} className="text-2xl drop-shadow-lg">{piece}</span>
+                <span key={i} className="text-3xl drop-shadow-lg">{piece}</span>
               ))
             )}
           </div>

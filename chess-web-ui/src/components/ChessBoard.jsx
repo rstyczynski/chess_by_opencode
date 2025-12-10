@@ -24,47 +24,35 @@ function ChessBoard({ board, onSquareClick, selectedSquare, validMoves, lastMove
   const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
-  const getSquareName = (row, col) => {
-    return `${files[col]}${ranks[row]}`;
-  };
-
+  const getSquareName = (row, col) => `${files[col]}${ranks[row]}`;
   const isLightSquare = (row, col) => (row + col) % 2 === 0;
-
-  const isValidMove = (row, col) => {
-    const square = getSquareName(row, col);
-    return validMoves?.includes(square);
-  };
-
-  const isLastMove = (row, col) => {
-    const square = getSquareName(row, col);
-    return lastMove?.includes(square);
-  };
-
-  const isSelected = (row, col) => {
-    const square = getSquareName(row, col);
-    return selectedSquare === square;
-  };
+  const isValidMove = (row, col) => validMoves?.includes(getSquareName(row, col));
+  const isLastMove = (row, col) => lastMove?.includes(getSquareName(row, col));
+  const isSelected = (row, col) => selectedSquare === getSquareName(row, col);
 
   return (
     <div className="relative">
-      {/* Board Container with wooden frame effect */}
-      <div className="bg-gradient-to-br from-amber-900 via-amber-800 to-amber-900 p-6 rounded-2xl shadow-2xl">
-        {/* Board Coordinates - Ranks (Left) */}
-        <div className="absolute left-2 top-6 flex flex-col justify-around h-[480px] text-amber-200 font-bold text-sm">
+      {/* Wooden Frame */}
+      <div className="bg-gradient-to-br from-amber-900 via-amber-800 to-amber-900 p-8 rounded-3xl shadow-2xl" style={{
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.1)'
+      }}>
+
+        {/* Rank Labels (Left) */}
+        <div className="absolute left-2 top-8 flex flex-col justify-around h-[520px] text-amber-200 font-bold text-lg">
           {ranks.map(rank => (
-            <div key={rank} className="h-[60px] flex items-center">{rank}</div>
+            <div key={rank} className="h-[65px] flex items-center">{rank}</div>
           ))}
         </div>
 
-        {/* Board Coordinates - Files (Bottom) */}
-        <div className="absolute bottom-2 left-6 flex justify-around w-[480px] text-amber-200 font-bold text-sm">
+        {/* File Labels (Bottom) */}
+        <div className="absolute bottom-2 left-8 flex justify-around w-[520px] text-amber-200 font-bold text-lg">
           {files.map(file => (
-            <div key={file} className="w-[60px] flex justify-center">{file}</div>
+            <div key={file} className="w-[65px] flex justify-center uppercase">{file}</div>
           ))}
         </div>
 
         {/* Chessboard */}
-        <div className="grid grid-cols-8 gap-0 w-[480px] h-[480px] border-4 border-amber-950 rounded-lg overflow-hidden shadow-inner relative">
+        <div className="grid grid-cols-8 gap-0 w-[520px] h-[520px] border-8 border-amber-950 rounded-xl overflow-hidden shadow-2xl">
           {squares.map((row, rowIndex) =>
             row.map((piece, colIndex) => {
               const squareName = getSquareName(rowIndex, colIndex);
@@ -73,17 +61,24 @@ function ChessBoard({ board, onSquareClick, selectedSquare, validMoves, lastMove
               const isLast = isLastMove(rowIndex, colIndex);
               const isSelectedSq = isSelected(rowIndex, colIndex);
 
-              // Elegant square colors
-              let bgColor = isLight
-                ? 'bg-gradient-to-br from-amber-100 via-amber-50 to-yellow-100'
-                : 'bg-gradient-to-br from-amber-700 via-amber-800 to-amber-900';
+              // LIGHT board colors for visibility
+              let bgColor, textColor;
 
               if (isSelectedSq) {
-                bgColor = 'bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 ring-4 ring-blue-300';
+                bgColor = 'bg-blue-400';
+                textColor = 'text-gray-900';
               } else if (isValid) {
-                bgColor = 'bg-gradient-to-br from-green-400 via-green-500 to-green-600 ring-2 ring-green-300';
+                bgColor = 'bg-green-400';
+                textColor = 'text-gray-900';
               } else if (isLast) {
-                bgColor = 'bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-500';
+                bgColor = 'bg-yellow-300';
+                textColor = 'text-gray-900';
+              } else if (isLight) {
+                bgColor = 'bg-amber-50';
+                textColor = 'text-gray-900';
+              } else {
+                bgColor = 'bg-amber-600';
+                textColor = 'text-gray-100';
               }
 
               const hasPiece = piece !== ' ' && piece !== '.' && piece !== '-';
@@ -91,31 +86,28 @@ function ChessBoard({ board, onSquareClick, selectedSquare, validMoves, lastMove
               return (
                 <div
                   key={`${rowIndex}-${colIndex}`}
-                  className={`${bgColor} flex items-center justify-center text-5xl cursor-pointer hover:brightness-110 transition-all duration-200 relative group ${hasPiece ? 'hover:scale-105' : ''}`}
+                  className={`${bgColor} ${textColor} flex items-center justify-center text-6xl cursor-pointer hover:brightness-110 transition-all duration-150 relative group`}
                   onClick={() => onSquareClick(squareName)}
-                  style={{
-                    boxShadow: isSelectedSq || isValid ? 'inset 0 2px 8px rgba(0,0,0,0.3)' : 'inset 0 1px 3px rgba(0,0,0,0.2)',
-                  }}
                 >
                   {hasPiece && (
                     <span
-                      className="drop-shadow-lg filter"
+                      className="font-bold"
                       style={{
-                        filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.5))',
-                        textShadow: '1px 1px 2px rgba(255,255,255,0.3)',
+                        filter: 'drop-shadow(3px 3px 6px rgba(0,0,0,0.7))',
+                        textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                       }}
                     >
-                      {PIECE_MAP[piece] || piece}
+                      {PIECE_MAP[piece]}
                     </span>
                   )}
 
-                  {/* Valid move indicator dot */}
+                  {/* Valid move dot */}
                   {isValid && !hasPiece && (
-                    <div className="absolute w-4 h-4 bg-green-700 rounded-full opacity-60"></div>
+                    <div className="absolute w-5 h-5 bg-green-700 rounded-full shadow-lg"></div>
                   )}
 
-                  {/* Square coordinate tooltip on hover */}
-                  <span className="absolute bottom-0.5 right-1 text-[8px] opacity-30 group-hover:opacity-60 font-mono">
+                  {/* Coordinate label */}
+                  <span className="absolute bottom-1 right-1.5 text-xs opacity-40 group-hover:opacity-70 font-mono font-semibold">
                     {squareName}
                   </span>
                 </div>

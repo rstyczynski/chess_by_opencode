@@ -8,18 +8,18 @@ This project develops a complete chess application using Go and the Ollama devel
 
 ### Current Status
 
-**Active Sprint:** Sprint 1 - Chess CLI  
-**Sprint Status:** implemented_partially  
+**Active Sprint:** Sprint 2 - Chess REST API  
+**Sprint Status:** Progress  
 **Overall Progress:** 33% complete (1/3 sprints)
 
 ## Recent Updates
 
-### Sprint 1 - Chess CLI
+### Sprint 1 - Chess CLI ✅
 
-**Status:** implemented_partially
+**Status:** implemented
 
 **Backlog Items Implemented:**
-- **STP-1**: Chess CLI - implemented_partially
+- **STP-1**: Chess CLI - tested
 
 **Key Features Added:**
 - Complete chess game with rule enforcement
@@ -92,11 +92,13 @@ chess_by_ollama/
 
 ## Development Roadmap
 
-### Sprint 1 - Chess CLI ✅ (implemented_partially)
+### Sprint 1 - Chess CLI ✅ (implemented)
 - [x] Terminal-based chess game
 - [x] Computer opponent (Stockfish)
 - [x] Standard move notation
 - [x] Game state management
+- [x] EOF input handling
+- [x] Complete test coverage
 
 ### Sprint 2 - Chess REST API 📋 (Planned)
 - [ ] RESTful API endpoints

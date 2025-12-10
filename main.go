@@ -105,6 +105,11 @@ func (g *Game) getHumanMove() bool {
 		fmt.Print("Your move (White): ")
 		input, err := reader.ReadString('\n')
 		if err != nil {
+			// Handle EOF gracefully
+			if err.Error() == "EOF" {
+				fmt.Println("\nGame ended - input stream closed.")
+				return false
+			}
 			fmt.Printf("Error reading input: %v\n", err)
 			continue
 		}

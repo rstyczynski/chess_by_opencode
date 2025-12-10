@@ -20,7 +20,7 @@ Backlog Items:
 
 ## Sprint 3 - Chess Web UI
 
-Status: Progress
+Status: Done
 Mode: YOLO
 
 Backlog Items:

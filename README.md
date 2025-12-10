@@ -8,9 +8,9 @@ This project develops a complete chess application using Go and the Ollama devel
 
 ### Current Status
 
-**Active Sprint:** Sprint 2 - Chess REST API  
-**Sprint Status:** Progress  
-**Overall Progress:** 33% complete (1/3 sprints)
+**Active Sprint:** Sprint 3 - Chess Web UI  
+**Sprint Status:** Planned  
+**Overall Progress:** 67% complete (2/3 sprints)
 
 ## Recent Updates
 
@@ -100,11 +100,23 @@ chess_by_ollama/
 - [x] EOF input handling
 - [x] Complete test coverage
 
-### Sprint 2 - Chess REST API 📋 (Planned)
-- [ ] RESTful API endpoints
-- [ ] Game session management
-- [ ] Move validation API
-- [ ] Computer opponent API
+### Sprint 2 - Chess REST API ✅ (implemented)
+- [x] RESTful API endpoints
+- [x] Game session management
+- [x] Move validation API
+- [x] Computer opponent API
+- [x] CLI_REST client
+- [x] CORS support
+- [x] Error handling
+
+**Documentation:**
+- Implementation: `progress/sprint_2/sprint_2_implementation.md`
+- Tests: `progress/sprint_2/sprint_2_tests.md`
+- Design: `progress/sprint_2/sprint_2_design.md`
+- Analysis: `progress/sprint_2/sprint_2_analysis.md`
+
+**Usage Examples:**
+See implementation documentation for complete API and CLI_REST usage examples.
 
 ### Sprint 3 - Chess Web UI 📋 (Planned)
 - [ ] Web-based chess interface

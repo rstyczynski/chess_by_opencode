@@ -1,109 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { apiClient } from '../services/api.js';
+import { useState } from 'react';
 
-// Chess piece Unicode symbols
-const PIECES = {
-  'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙',
-  'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟',
-  '.': '-',
+const PIECE_MAP = {
+  '♔': '♔', '♕': '♕', '♖': '♖', '♗': '♗', '♘': '♘', '♙': '♙',
+  '♚': '♚', '♛': '♛', '♜': '♜', '♝': '♝', '♞': '♞', '♟': '♟'
 };
 
-// Chess board component
-function ChessBoard({ gameState, onMove, isLoading }) {
-  const [selectedSquare, setSelectedSquare] = useState(null);
-  const [validMoves, setValidMoves] = useState([]);
-
-  useEffect(() => {
-    if (gameState.validMoves) {
-      setValidMoves(gameState.validMoves);
+function ChessBoard({ board, onSquareClick, selectedSquare, validMoves, lastMove }) {
+  const parseBoard = (boardString) => {
+    if (!boardString) return Array(8).fill(Array(8).fill(' '));
+    const lines = boardString.split('\n').filter(line => line.trim() && !line.includes('abcdefgh'));
+    const squares = [];
+    for (let i = 0; i < Math.min(8, lines.length); i++) {
+      const row = [];
+      const chars = lines[i].split('').filter(c => Object.keys(PIECE_MAP).includes(c) || c === ' ' || c === '.');
+      for (let j = 0; j < 8; j++) {
+        row.push(chars[j] || ' ');
+      }
+      squares.push(row);
     }
-  }, [gameState]);
-
-  const handleSquareClick = async (square) => {
-    if (isLoading || !gameState.id) return;
-
-    // Check if it's a valid move
-    if (validMoves.includes(square)) {
-      await onMove(square);
-      setSelectedSquare(null);
-    } else {
-      setSelectedSquare(square);
-    }
+    return squares;
   };
 
-  const renderBoard = () => {
-    const board = gameState.board || '';
-    const lines = board.split('\n').filter(line => line.trim());
-    
-    return lines.map((line, rowIndex) => {
-      const squares = line.split('').filter(char => char.trim());
-      
-      return (
-        <div key={rowIndex} className="flex justify-center">
-          {squares.map((square, colIndex) => {
-            const isLight = (rowIndex + colIndex) % 2 === 1;
-            const isValidMove = validMoves.includes(square);
-            const isSelected = selectedSquare === square;
-            
-            let piece = PIECES[square] || '';
-            if (square === '.' && isLight) {
-              piece = <div className="w-8 h-8 bg-green-200"></div>;
-            } else if (square === '.' && !isLight) {
-              piece = <div className="w-8 h-8 bg-green-300"></div>;
-            } else if (square !== '.') {
-              piece = (
-                <div className={`text-4xl ${isSelected ? 'text-yellow-400' : ''} ${isValidMove ? 'text-blue-400' : ''}`}>
-                  {piece}
-                </div>
-              );
-            }
-            
-            return (
-              <div 
-                key={colIndex}
-                className={`w-12 h-12 border border-gray-400 flex items-center justify-center cursor-pointer
-                  ${isLight ? 'bg-green-200' : 'bg-green-300'}
-                  ${isSelected ? 'ring-2 ring-yellow-400' : ''}
-                  ${isValidMove ? 'ring-2 ring-blue-400' : ''}`}
-                onClick={() => handleSquareClick(square)}
-              >
-                {piece}
-              </div>
-            );
-          })}
-        </div>
-      );
-    });
+  const squares = parseBoard(board);
+  const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+
+  const getSquareName = (row, col) => {
+    return `${files[col]}${ranks[row]}`;
   };
 
-  if (!gameState.id) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-xl text-gray-600">Start a new game to begin playing</div>
-      </div>
-    );
-  }
+  const isLightSquare = (row, col) => (row + col) % 2 === 0;
+
+  const isValidMove = (row, col) => {
+    const square = getSquareName(row, col);
+    return validMoves?.includes(square);
+  };
+
+  const isLastMove = (row, col) => {
+    const square = getSquareName(row, col);
+    return lastMove?.includes(square);
+  };
+
+  const isSelected = (row, col) => {
+    const square = getSquareName(row, col);
+    return selectedSquare === square;
+  };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg">
-      <div className="mb-4 text-center">
-        <h2 className="text-xl font-bold">Chess Game</h2>
-        {gameState.id && <p className="text-sm text-gray-600">Game ID: {gameState.id}</p>}
-        {gameState.turn && <p className="text-sm text-gray-600">Turn: {gameState.turn === 'w' ? 'White' : 'Black'}</p>}
-        {gameState.lastMove && <p className="text-sm text-gray-600">Last Move: {gameState.lastMove}</p>}
-        {gameState.outcome && <p className="text-lg font-bold text-red-600">Game Over: {gameState.outcome}</p>}
+    <div className="bg-white p-4 rounded-lg shadow-2xl">
+      <div className="grid grid-cols-8 gap-0 w-[400px] h-[400px] md:w-[480px] md:h-[480px] border-4 border-amber-900">
+        {squares.map((row, rowIndex) =>
+          row.map((piece, colIndex) => {
+            const squareName = getSquareName(rowIndex, colIndex);
+            const isLight = isLightSquare(rowIndex, colIndex);
+            const isValid = isValidMove(rowIndex, colIndex);
+            const isLast = isLastMove(rowIndex, colIndex);
+            const isSelectedSq = isSelected(rowIndex, colIndex);
+
+            let bgColor = isLight ? 'bg-amber-100' : 'bg-amber-700';
+            if (isSelectedSq) bgColor = 'bg-blue-400';
+            else if (isValid) bgColor = 'bg-green-400';
+            else if (isLast) bgColor = 'bg-yellow-300';
+
+            return (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                className={`${bgColor} flex items-center justify-center text-4xl md:text-5xl cursor-pointer hover:opacity-80 transition-opacity relative`}
+                onClick={() => onSquareClick(squareName)}
+              >
+                {piece !== ' ' && piece !== '.' ? PIECE_MAP[piece] || piece : ''}
+                <span className="absolute bottom-0 right-1 text-xs text-gray-500">
+                  {squareName}
+                </span>
+              </div>
+            );
+          })
+        )}
       </div>
-      
-      <div className="border-2 border-gray-800 inline-block">
-        {renderBoard()}
-      </div>
-      
-      {isLoading && (
-        <div className="mt-4 text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-r-2 border-t-2 border-l-2 border-gray-900"></div>
-          <p className="ml-2 text-gray-600">Thinking...</p>
-        </div>
-      )}
     </div>
   );
 }

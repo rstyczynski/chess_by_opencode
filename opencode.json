@@ -1,18 +1,15 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "myprovider": {
+    "ollama": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "My AI ProviderDisplay Name",
+      "name": "Ollama (local)",
       "options": {
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "oca/grok-code-fast-1": {
-          "name": "oca/grok-code-fast-1"
-        },
-        "oca/gpt5": {
-          "name": "oca/gpt5"
+        "llama2": {
+          "name": "Llama 2"
         }
       }
     }

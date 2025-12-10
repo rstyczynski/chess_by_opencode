@@ -2,7 +2,7 @@
 
 ## Sprint 1 - Chess CLI
 
-Status: Progress
+Status: Done
 Mode: YOLO
 
 Backlog Items:
@@ -11,7 +11,7 @@ Backlog Items:
 
 ## Sprint 2 - Chess REST API
 
-Status: Planned
+Status: Progress
 Mode: YOLO
 
 Backlog Items:
